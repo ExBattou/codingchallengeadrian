@@ -6,16 +6,19 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.adriann.coding_challenge_adrian.R;
 import net.adriann.coding_challenge_adrian.adapter.RedditPostAdapter;
+import net.adriann.coding_challenge_adrian.model.ARedditPost;
+import net.adriann.coding_challenge_adrian.model.Child;
 import net.adriann.coding_challenge_adrian.model.PostFromReddit;
 import net.adriann.coding_challenge_adrian.service.RedditService;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,7 +26,6 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.recycler)
     RecyclerView recycler;
 
     RedditPostAdapter adapter;
@@ -33,27 +35,37 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        callRedditEndpoint();
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+
+        recycler = (RecyclerView) findViewById(R.id.recycler);
+        recycler.setLayoutManager(linearLayoutManager);
+        callRedditEndpoint3();
     }
 
+    public void callRedditEndpoint3() {
+        RedditService.getInstance()
+                .getRedditApi()
+                .getAllPosts2()
+                .enqueue(new Callback<ARedditPost>() {
+                    @Override
+                    public void onResponse(Call<ARedditPost> call, Response<ARedditPost> response) {
 
-    public void callRedditEndpoint() { //was going to add a presenter, but it was a drag just to get a Json.
-        RedditService.getInstance().getRedditApi().getTopPosts().enqueue(new Callback<ArrayList<PostFromReddit>>() {
+                        List<Child> postList = response.body().getData().getChildren();
+                        setRecyclerWithAdapter(postList);
+                        Toast.makeText(getApplicationContext(), "IT WORKED", Toast.LENGTH_LONG).show();
+                    }
 
-            @Override
-            public void onResponse(Call<ArrayList<PostFromReddit>> call, Response<ArrayList<PostFromReddit>> response) {
-                setRecyclerWithAdapter(response.body());
-            }
+                    @Override
+                    public void onFailure(Call<ARedditPost> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), "Aw geez! something has Failed, Rick", Toast.LENGTH_LONG).show();
+                    }
 
-            @Override
-            public void onFailure(Call<ArrayList<PostFromReddit>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Aw geez! something has Failed, Rick", Toast.LENGTH_LONG).show();
-            }
-        });
+                });
     }
 
-    public void setRecyclerWithAdapter(ArrayList<PostFromReddit> posts) {
+    public void setRecyclerWithAdapter(List<Child> posts) {
         this.adapter = new RedditPostAdapter(posts);
+
         recycler.setAdapter(adapter);
     }
 
