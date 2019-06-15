@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,20 +16,20 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 
 import net.adriann.coding_challenge_adrian.R;
+import net.adriann.coding_challenge_adrian.model.Child;
 import net.adriann.coding_challenge_adrian.model.PostFromReddit;
 import net.adriann.coding_challenge_adrian.viewholder.PostViewHolder;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class RedditPostAdapter extends RecyclerView.Adapter<PostViewHolder> {
 
     Context context;
-    ArrayList<PostFromReddit> postList;
+    List<Child> postList;
 
-    public RedditPostAdapter (ArrayList<PostFromReddit> posts) {
+    public RedditPostAdapter (List<Child> posts) {
         this.postList = posts;
     }
-
 
     @NonNull
     @Override
@@ -40,12 +41,18 @@ public class RedditPostAdapter extends RecyclerView.Adapter<PostViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
-        PostFromReddit post = postList.get(position);
-        holder.author.setText(post.getAuthor());
-        holder.commentNumber.setText(post.getCommentsQuantity());
-        holder.readstatus.setActivated(false);
-        holder.title.setText(post.getTitle());
-        getImageFromUrl(post.getThumbnailUrl(),holder.thumbnail);
+        Child post = postList.get(position);
+        String author = post.getData().getAuthor();
+
+        TextView author_text = holder.author;
+        author_text.setText(author);
+
+        TextView commentNumberText = holder.commentNumber;
+        commentNumberText.setText(post.getData().getNumComments());
+//        holder.commentNumber.setText(post.getData().getNumComments());
+//        holder.readstatus.setActivated(false);
+//        holder.title.setText(post.getData().getTitle());
+//        getImageFromUrl(post.getData().getThumbnail(),holder.thumbnail);
 
     }
 
@@ -62,6 +69,6 @@ public class RedditPostAdapter extends RecyclerView.Adapter<PostViewHolder> {
 
     @Override
     public int getItemCount() {
-        return 0;
+        return postList.size();
     }
 }

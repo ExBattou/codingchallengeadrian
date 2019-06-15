@@ -33,5 +33,8 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         ButterKnife.bind(this,itemView);
     }
+
+
+
     
 }
