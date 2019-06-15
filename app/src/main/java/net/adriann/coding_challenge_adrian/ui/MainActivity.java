@@ -14,6 +14,7 @@ import net.adriann.coding_challenge_adrian.model.PostFromReddit;
 import net.adriann.coding_challenge_adrian.service.RedditService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        callRedditEndpoint();
+        callRedditEndpoint2();
     }
 
 
@@ -52,9 +53,29 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void callRedditEndpoint2() {
+        RedditService.getInstance()
+                .getRedditApi()
+                .getAllPosts()
+                .enqueue(new Callback<ArrayList<PostFromReddit>>() {
+                    @Override
+                    public void onResponse(Call<ArrayList<PostFromReddit>> call, Response<ArrayList<PostFromReddit>> response) {
+                        ArrayList<PostFromReddit> toSend = response.body();
+                        setRecyclerWithAdapter(toSend);
+                    }
+
+                    @Override
+                    public void onFailure(Call<ArrayList<PostFromReddit>> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), "Aw geez! something has Failed, Rick", Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
     public void setRecyclerWithAdapter(ArrayList<PostFromReddit> posts) {
         this.adapter = new RedditPostAdapter(posts);
         recycler.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        recycler.refreshDrawableState();
     }
 
 }
