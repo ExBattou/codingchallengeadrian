@@ -25,6 +25,10 @@ public class RedditPostAdapter extends RecyclerView.Adapter<PostViewHolder> {
     Context context;
     ArrayList<PostFromReddit> postList;
 
+    public RedditPostAdapter (ArrayList<PostFromReddit> posts) {
+        this.postList = posts;
+    }
+
 
     @NonNull
     @Override
