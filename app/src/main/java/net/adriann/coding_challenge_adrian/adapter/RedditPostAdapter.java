@@ -18,6 +18,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 
 import net.adriann.coding_challenge_adrian.R;
+import net.adriann.coding_challenge_adrian.Utils.TimeAgo;
 import net.adriann.coding_challenge_adrian.Utils.Utils;
 import net.adriann.coding_challenge_adrian.model.Child;
 import net.adriann.coding_challenge_adrian.ui.dialog.WebViewDialog;
@@ -57,7 +58,8 @@ public class RedditPostAdapter extends RecyclerView.Adapter<PostViewHolder> {
         commentNumberText.setText(commmentNumber);
 
         holder.title.setText(post.getData().getTitle());
-        holder.time_ago.setText(post.getData().getCreated().toString());
+
+        holder.time_ago.setText(TimeAgo.getTimeAgo(post.getData().getCreated()));
         holder.author.setText(post.getData().getAuthor());
         holder.commentNumber.setText(post.getData().getNumComments().toString());
         getImageFromUrl(post.getData().getThumbnail(),holder.thumbnail);

@@ -7,18 +7,18 @@ public class TimeAgo {
         private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
         private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
 
-        public static String getTimeAgo(long time) {
+        public static String getTimeAgo(double time) {
             if (time < 1000000000000L) {
                 time *= 1000;
             }
 
-            long now = System.currentTimeMillis();
+            double now = System.currentTimeMillis();
             if (time > now || time <= 0) {
                 return null;
             }
 
 
-            final long diff = now - time;
+            final double diff = now - time;
             if (diff < MINUTE_MILLIS) {
                 return "just now";
             } else if (diff < 2 * MINUTE_MILLIS) {
