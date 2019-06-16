@@ -1,6 +1,8 @@
 package net.adriann.coding_challenge_adrian.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,9 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 
 import net.adriann.coding_challenge_adrian.R;
+import net.adriann.coding_challenge_adrian.Utils.Utils;
 import net.adriann.coding_challenge_adrian.model.Child;
+import net.adriann.coding_challenge_adrian.ui.dialog.WebViewDialog;
 import net.adriann.coding_challenge_adrian.viewholder.PostViewHolder;
 
 import java.util.List;
@@ -57,6 +61,14 @@ public class RedditPostAdapter extends RecyclerView.Adapter<PostViewHolder> {
         holder.author.setText(post.getData().getAuthor());
         holder.commentNumber.setText(post.getData().getNumComments().toString());
         getImageFromUrl(post.getData().getThumbnail(),holder.thumbnail);
+        holder.container.setOnClickListener(v -> {
+                    holder.readstatus.setActivated(true);
+                    //showPostPopUp(context,"www.reddit.com"+post.getData().getPermalink());
+                });
+        holder.thumbnail.setOnClickListener(v -> {
+            holder.readstatus.setActivated(true);
+            Utils.openImageFullscreen(context,post.getData().getThumbnail());
+        });
 
     }
 
@@ -76,5 +88,11 @@ public class RedditPostAdapter extends RecyclerView.Adapter<PostViewHolder> {
     @Override
     public int getItemCount() {
         return postList.size();
+    }
+
+    public void showPostPopUp(Context context,String webAddress) {
+        WebViewDialog dialog = new WebViewDialog(context,webAddress);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
     }
 }

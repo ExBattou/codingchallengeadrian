@@ -1,4 +1,4 @@
-package net.adriann.coding_challenge_adrian.ui;
+package net.adriann.coding_challenge_adrian.ui.activity;
 
 import android.os.Bundle;
 import android.widget.Toast;

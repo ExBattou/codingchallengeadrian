@@ -3,26 +3,33 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
     android:orientation="vertical"
     android:elevation="10dp"
+    android:background="@android:color/background_light"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:layout_margin="10dp"
+    android:padding="2dp">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="title"
         android:id="@+id/title_view"
-        android:maxLines="3"
+        android:maxLines="1"
+        android:layout_marginStart="5dp"
         android:ellipsize="end"
         app:layout_constraintTop_toBottomOf="@id/author"
         app:layout_constraintStart_toEndOf="@id/thumb"
+        app:layout_constraintEnd_toEndOf="parent"
+
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
         android:text="author"
         android:id="@+id/author"
         app:layout_constraintTop_toTopOf="parent"
@@ -33,6 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="time ago"
+        android:layout_marginStart="5dp"
         android:id="@+id/x-time-agor"
         app:layout_constraintTop_toBottomOf="@id/title_view"
         app:layout_constraintStart_toEndOf="@id/thumb"
@@ -42,28 +50,33 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:id="@+id/thumb"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
 
         />
 
     <TextView
+        android:layout_marginStart="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="comment number"
+
         android:id="@+id/comment_number"
         app:layout_constraintTop_toBottomOf="@id/x-time-agor"
         app:layout_constraintStart_toEndOf="@id/thumb"
         />
 
+
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/readstatus"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
-
+    <!-- this was a mark for read state -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
